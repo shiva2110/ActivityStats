@@ -1,4 +1,4 @@
-package com.activity.main;
+package com.activity;
 
 import java.io.IOException;
 import java.text.DateFormat;
