@@ -109,6 +109,7 @@ public class HomeController {
 		//Search ; 
 		SearchResult searchResult = getIndexer().search(activity);
 		activity.hits = searchResult.getTotalHits();
+		model.addAttribute("responseType", "record");
 		model.addAttribute("totalHits", searchResult.getTotalHits());
 		model.addAttribute("activityText", activityText);
 		
@@ -132,8 +133,39 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/explore", method = RequestMethod.GET)
-	public String explore(Locale locale, Model model) {
+	public String explore(Locale locale, Model model, HttpServletRequest request) {
 		System.out.println("explore");
+		String activityText = request.getParameter("activityText");
+		
+		Activity activity = new Activity();
+		activity.sentence = activityText;
+		
+		//Tokenize
+		Tokenizer tokenizer = new Tokenizer();
+		List<String> tokens = tokenizer.tokenize(activity.sentence);
+		activity.processedTokens = tokens;
+		
+		System.out.println(activity.processedTokens.toString());		
+		
+		//Search ; 
+		SearchResult searchResult = getIndexer().search(activity);
+		activity.hits = searchResult.getTotalHits();
+		model.addAttribute("responseType", "explore");
+		model.addAttribute("totalHits", searchResult.getTotalHits());
+		model.addAttribute("activityText", activityText);
+		
+		List<Activity> popularlist = getTrendTracker().getMostPopular();
+		ActivityTrendsComparator<Activity> comparator = new ActivityTrendsComparator<Activity>();
+		comparator.setSortOrder(SortOrder.DESC);
+		Collections.sort(popularlist, comparator);
+		model.addAttribute("popularList", popularlist);
+		
+		List<Activity> oddlist = getTrendTracker().getMostOdd();
+		comparator = new ActivityTrendsComparator<Activity>();
+		comparator.setSortOrder(SortOrder.ASC);
+		Collections.sort(oddlist, comparator);
+		model.addAttribute("oddList", oddlist);
+		
 		return "statsResults";
 	}
 }

@@ -12,15 +12,15 @@ public class MaxPriorityQ<T> {
 		this.comparator = comparator;
 	}
 
-	public int getLeft(int pos) {
+	private int getLeft(int pos) {
 		return (pos * 2) + 1;
 	}
 
-	public int getRight(int pos) {
+	private int getRight(int pos) {
 		return (pos * 2) + 2;
 	}
 
-	public int getParent(int pos) {
+	private int getParent(int pos) {
 		return (int) Math.ceil((pos / 2.0) - 1);
 	}
 
@@ -60,7 +60,7 @@ public class MaxPriorityQ<T> {
 		return topKList;
 	}
 	
-	private T extractMAX() {
+	public T extractMAX() {
 
 		T obj = heapList.get(0);
 		heapList.set(0, heapList.get(heapList.size()-1));

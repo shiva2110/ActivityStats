@@ -22,10 +22,18 @@
 		$("#recordSubmit").click(function() {
 			$("#activityForm").attr("action", "record");
 		});
+		
 
 		$("#exploreSubmit").click(function() {
 			$("#activityForm").attr("action", "explore");
 		});
+		
+		var responseType = '${responseType}';
+		if(responseType=="record"){
+			$("#recordText").show();
+		} else if(responseType=="explore"){
+			$("#exploreText").show();
+		}
 
 		var maxPopular = $(".popularListCanvas").get(0).title;
 		$(".popularListCanvas").each(function() {
@@ -104,11 +112,19 @@
 				style="margin-right: 3px; display: none" id="tooltip"></img>
 		</p>
 
-		<p
-		style="position: absolute; top: 180px; left: 5%; width: 480px; font-family: tahoma; font-size: large">
+		
+		<p id="recordText"
+		style="position: absolute; top: 180px; left: 5%; width: 480px; font-family: tahoma; font-size: large; display:none;">
 		Thats Awesome! <span style="font-size: x-large; color: #810541">${totalHits}</span>
 		people currently <span style="font-size: x-large; color: #810541">${activityText}</span>.
 		Keep going, do let us know what you upto next!!
+		</p>
+	
+		
+		<p id="exploreText"
+		style="position: absolute; top: 180px; left: 5%; width: 480px; font-family: tahoma; font-size: large; display:none;">
+		Thinking about <span style="font-size: x-large; color: #810541">${activityText}</span>??
+		<span style="font-size: x-large; color: #810541">${totalHits}</span> people currently doing it!!
 		</p>
 	
 	</form>
